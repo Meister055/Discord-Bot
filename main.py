@@ -2,9 +2,13 @@ import discord
 from discord.ext import commands
 import random
 import ffmpeg
+import os
+import sys
+import discordtoken
+from discordtoken import *
+
 
 bot = commands.Bot(command_prefix='_')
-
 
 ### Preparing Bot ###
 @bot.event
@@ -39,4 +43,4 @@ async def ban(ctx, member : discord.Member, *, reason='This action was preformed
     await member.ban(reason=reason)
 
 ### BOT RUN WITH KEY! DO NOT EDIT ###
-bot.run('ODI2MTc1MzI3ODU1NTc1MDQz.YGIpuw.KK7Wi99t3eEamefM9z5m-NLqqAU')
+bot.run(dtok())
