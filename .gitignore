@@ -1,2 +1,5 @@
 discordtoken.py
 __pycache__/discordtoken.cpython-39.pyc
+.replit
+poetry.lock
+pyproject.toml
