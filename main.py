@@ -4,17 +4,20 @@ import random
 import ffmpeg
 import os
 import sys
-import discordtoken
-from discordtoken import *
+from discordtoken import dtok
 
+### Bot Setup ###
+description = 'A bot that does stuff'
 
-bot = commands.Bot(command_prefix='_')
+intents = discord.Intents.all()
+
+bot = commands.Bot(command_prefix='_', description=description, intents=intents)
 
 ### Preparing Bot ###
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Game("with my nuts 🤯"), status=discord.Status.idle)
-    print('Ready')
+    print(f'Bot is ready to run commands!\n----------')
 
 
 
@@ -22,6 +25,7 @@ async def on_ready():
 @bot.command()
 async def ping(ctx):
     await ctx.send(f'Pong! {round(bot.latency * 1000)} ms')
+    print(f'Pong! {round(bot.latency * 1000)} ms')
 
 
 @bot.command()
@@ -42,5 +46,19 @@ async def kick(ctx, member : discord.Member, *, reason='This action was preforme
 async def ban(ctx, member : discord.Member, *, reason='This action was preformed by a bot at the request of a moderator.'):
     await member.ban(reason=reason)
 
+@bot.command()
+async def unban(ctx, *, member):
+    banned_users = await ctx.guild.bans()
+    member_name, member_discriminator = member.split('#')
+
+    for ban_entry in banned_users:
+        user = ban_entry.user
+
+        if (user.name, user.discriminator) == (member_name, member_discriminator):
+            await ctx.guild.unban(user)
+            await ctx.send(f'Unbanned {user.mention}')
+            return
+
 ### BOT RUN WITH KEY! DO NOT EDIT ###
-bot.run(dtok())
+if __name__ == '__main__':
+    bot.run(dtok())
