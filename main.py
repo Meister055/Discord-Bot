@@ -47,17 +47,10 @@ async def ban(ctx, member : discord.Member, *, reason='This action was preformed
     await member.ban(reason=reason)
 
 @bot.command()
-async def unban(ctx, *, member):
-    banned_users = await ctx.guild.bans()
-    member_name, member_discriminator = member.split('#')
-
-    for ban_entry in banned_users:
-        user = ban_entry.user
-
-        if (user.name, user.discriminator) == (member_name, member_discriminator):
-            await ctx.guild.unban(user)
-            await ctx.send(f'Unbanned {user.mention}')
-            return
+async def unban(ctx, *, id: int):
+    user = await bot.fetch_user(id)
+    await ctx.guild.unban(user)
+    await ctx.send(f'Unbanned {user}.')
 
 ### BOT RUN WITH KEY! DO NOT EDIT ###
 if __name__ == '__main__':
